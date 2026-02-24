@@ -7,21 +7,14 @@
 // Explanation: The binary codes of length 2 are "00", "01", "10" and "11". They can be all found as substrings at indices 0, 1, 3 and 2 respectively.
 package main
 
-// func hasAllCodes(s string, k int) bool {
-
-// }
-
-func getBinaryCodes(k int) []string {
-	if k == 0 {
-		return []string{""}
+func hasAllCodes(s string, k int) bool {
+	codeExist := make(map[string]struct{})
+	for i := 0; i < len(s)-k+1; i++ {
+		code := s[i : i+k]
+		if _, ok := codeExist[code]; ok {
+			continue
+		}
+		codeExist[code] = struct{}{}
 	}
-	if k == 1 {
-		return []string{"0", "1"}
-	}
-	arr := getBinaryCodes(k - 1)
-	result := make([]string, 0, len(arr)*2)
-	for _, code := range arr {
-		result = append(result, code+"0", code+"1")
-	}
-	return result
+	return len(codeExist) == 1<<k
 }
