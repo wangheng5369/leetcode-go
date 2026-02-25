@@ -1,3 +1,5 @@
+package string
+
 func maximumLength(s string) int {
 	n := len(s)
 	l, r := 0, n

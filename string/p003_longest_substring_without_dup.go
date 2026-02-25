@@ -1,3 +1,5 @@
+package string
+
 // Given a string s, find the length of the longest substring without duplicate characters.
 // Example 1:
 // Input: s = "abcabcbb"
@@ -13,7 +15,9 @@ func lengthOfLongestSubstring(s string) int {
 			left = lastIndex[s[right]]
 		}
 		lastIndex[s[right]] = right + 1
-		maxLength = max(maxLength, right-left+1)
+		if cur := right - left + 1; cur > maxLength {
+			maxLength = cur
+		}
 	}
 	return maxLength
 }
