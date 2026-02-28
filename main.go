@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"leetcode-go/array_string"
+)
 
 // FilterStream keeps only even numbers from the input slice.
 func FilterStream(data []int) []int {
@@ -14,7 +16,8 @@ func FilterStream(data []int) []int {
 }
 
 func main() {
-	bigData := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	result := FilterStream(bigData)
-	fmt.Println("Result:", result)
+	// bigData := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	// result := FilterStream(bigData)
+	// fmt.Println("Result:", result)
+	array_string.SliceTest()
 }
