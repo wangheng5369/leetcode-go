@@ -3,7 +3,7 @@ package dynamicprogram
 // longestCommonSubsequence 求两个字符串的最长公共子序列长度
 // dp[i][j] = text1[0:i] 和 text2[0:j] 的 LCS 长度
 func longestCommonSubsequence(text1 string, text2 string) int {
-	m, n := len(text1), len(text2)
+	m,n := len(text1), len(text2)
 	dp := make([][]int, m+1)
 	for i := range dp {
 		dp[i] = make([]int, n+1)
