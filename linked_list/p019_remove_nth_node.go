@@ -13,5 +13,17 @@ package linkedlist
 // - 1 <= n <= sz
 
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
-
+	p, q := head, head
+	for i := 0; i < n && p != nil; i++ {
+		p = p.Next
+	}
+	if p == nil {
+		return head
+	}
+	for p.Next != nil {
+		p = p.Next
+		q = q.Next
+	}
+	q.Next = q.Next.Next
+	return head
 }
