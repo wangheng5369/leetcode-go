@@ -16,5 +16,12 @@ package array
 // - 只会存在唯一有效答案
 
 func twoSum(nums []int, target int) []int {
-
+	m := make(map[int]int)
+	for i, num := range nums {
+		if j, ok := m[target-num]; ok {
+			return []int{i, j}
+		}
+		m[num] = i
+	}
+	return nil
 }
