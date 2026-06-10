@@ -11,11 +11,14 @@ package linkedlist
 // - 链表中节点数目范围是 [0, 5000]
 // - -5000 <= Node.val <= 5000
 
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-
 func reverseList(head *ListNode) *ListNode {
-
+	var prev *ListNode
+	curr := head
+	for curr != nil {
+		t := curr.Next
+		curr.Next = prev
+		prev = curr
+		curr = t
+	}
+	return prev
 }

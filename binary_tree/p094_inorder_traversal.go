@@ -7,11 +7,6 @@ package binarytree
 // - 二叉树节点数目范围是 [0, 100]
 // - -100 <= Node.val <= 100
 
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
 
 func inorderTraversal(root *TreeNode) []int {
 
