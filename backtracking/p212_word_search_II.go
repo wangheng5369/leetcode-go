@@ -1,4 +1,4 @@
-package dfs
+package backtracking
 
 type Trie struct {
 	Root *TrieTree

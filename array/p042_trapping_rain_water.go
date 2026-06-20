@@ -13,5 +13,25 @@ package array
 // - 0 <= height[i] <= 10^5
 
 func trap(height []int) int {
-
+	left, right := 0, len(height)-1
+	leftmax, rightmax := 0, 0
+	water := 0
+	for left < right {
+		if height[left] < height[right] {
+			if height[left] > leftmax {
+				leftmax = height[left]
+			} else {
+				water += leftmax - height[left]
+			}
+			left++
+		} else {
+			if height[right] > rightmax {
+				rightmax = height[right]
+			} else {
+				water += rightmax - height[right]
+			}
+			right--
+		}
+	}
+	return water
 }
