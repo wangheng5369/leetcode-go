@@ -12,7 +12,7 @@
 // ]
 // Output: 3
 
-package dfs
+package bfsdfs
 
 func numIslands(grid [][]byte) int {
 	n, m := len(grid), len(grid[0])

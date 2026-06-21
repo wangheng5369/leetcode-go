@@ -1,4 +1,4 @@
-package dfs
+package bfsdfs
 
 // p130 被围绕的区域
 // 给你一个 m x n 的矩阵 board，其中：
@@ -39,21 +39,17 @@ package dfs
 
 func solve(board [][]byte) {
 	n, m := len(board), len(board[0])
-	if n == 0 || m == 0 {
-		return
-	}
 	var dfs func(x, y int)
 	dfs = func(x, y int) {
 		if x < 0 || x >= n || y < 0 || y >= m || board[x][y] != 'O' {
 			return
 		}
 		board[x][y] = 'A'
-		dfs(x+1, y)
-		dfs(x-1, y)
 		dfs(x, y+1)
 		dfs(x, y-1)
+		dfs(x+1, y)
+		dfs(x-1, y)
 	}
-
 	for i := 0; i < n; i++ {
 		if board[i][0] == 'O' {
 			dfs(i, 0)
@@ -72,10 +68,10 @@ func solve(board [][]byte) {
 	}
 	for i := 0; i < n; i++ {
 		for j := 0; j < m; j++ {
-			switch board[i][j] {
-			case 'O':
+			if board[i][j] == 'O' {
 				board[i][j] = 'X'
-			case 'A':
+			}
+			if board[i][j] == 'A' {
 				board[i][j] = 'O'
 			}
 		}

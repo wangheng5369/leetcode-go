@@ -1,4 +1,4 @@
-package dfs
+package bfsdfs
 
 // p695 岛屿的最大面积
 // 给你一个大小为 n x m 的二维整数网格 grid，其中：
@@ -40,18 +40,17 @@ func maxAreaOfIsland(grid [][]int) int {
 	}
 	res := 0
 	var dfs func(x, y int) int
-
 	dfs = func(x, y int) int {
-		if x < 0 || x >= n || y < 0 || y >= m || grid[x][y] != 1 {
+		if x < 0 || x >= n || y < 0 || y >= m || grid[x][y] == 0 {
 			return 0
 		}
 		grid[x][y] = 0
-		ans := 1
-		ans += dfs(x+1, y)
-		ans += dfs(x-1, y)
-		ans += dfs(x, y+1)
-		ans += dfs(x, y-1)
-		return ans
+		res := 1
+		res += dfs(x-1, y)
+		res += dfs(x+1, y)
+		res += dfs(x, y-1)
+		res += dfs(x, y+1)
+		return res
 	}
 	for i := 0; i < n; i++ {
 		for j := 0; j < m; j++ {
