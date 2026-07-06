@@ -1,4 +1,4 @@
-package array_string
+package arraystring
 
 import "fmt"
 

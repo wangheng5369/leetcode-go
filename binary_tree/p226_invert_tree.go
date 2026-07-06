@@ -12,5 +12,30 @@ package binarytree
 // - -100 <= Node.val <= 100
 
 func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	left := invertTree(root.Left)
+	right := invertTree(root.Right)
+	root.Left, root.Right = right, left
+	return root
+}
 
+func invertTree1(root *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		node := queue[0]
+		queue = queue[1:]
+		node.Left, node.Right = node.Right, node.Left
+		if node.Left != nil {
+			queue = append(queue, node.Left)
+		}
+		if node.Right != nil {
+			queue = append(queue, node.Right)
+		}
+	}
+	return root
 }

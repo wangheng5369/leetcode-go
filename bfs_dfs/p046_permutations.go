@@ -13,23 +13,23 @@ package bfsdfs
 // - nums 中的所有整数互不相同
 
 func permute(nums []int) [][]int {
-	var ans [][]int
-	used := make([]bool, len(nums))
-	path := make([]int, len(nums))
+	n := len(nums)
+	ans := make([][]int, 0)
+	used := make([]bool, n)
+	path := make([]int, 0)
 	var dfs func()
 	dfs = func() {
-		if len(path) == len(nums) {
-			temp := make([]int, len(path))
-			copy(temp, path)
-			ans = append(ans, temp)
-			return
+		if len(path) == n {
+			tmp := make([]int, n)
+			copy(tmp, path)
+			ans = append(ans, tmp)
 		}
-		for i := 0; i < len(nums); i++ {
+		for i, num := range nums {
 			if used[i] {
 				continue
 			}
 			used[i] = true
-			path = append(path, nums[i])
+			path = append(path, num)
 			dfs()
 			path = path[:len(path)-1]
 			used[i] = false

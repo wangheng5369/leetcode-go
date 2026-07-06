@@ -12,5 +12,13 @@ package dynamicprogram
 // - 1 <= n <= 45
 
 func climbStairs(n int) int {
-
+	if n <= 3 {
+		return n
+	}
+	p, q := 2, 3
+	for i := 4; i <= n; i++ {
+		q += p
+		p = q - p
+	}
+	return q
 }

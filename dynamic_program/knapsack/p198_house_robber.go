@@ -23,5 +23,13 @@ package knapsack
 // - 0 <= nums[i] <= 400
 
 func rob(nums []int) int {
-
+	n := len(nums)
+	rob := make([]int, n)
+	norob := make([]int, n)
+	rob[0] = nums[0]
+	for i := 1; i < n; i++ {
+		rob[i] = norob[i-1] + nums[i]
+		norob[i] = max(norob[i-1], rob[i-1])
+	}
+	return max(rob[n-1], norob[n-1])
 }

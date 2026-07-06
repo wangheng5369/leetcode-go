@@ -17,22 +17,23 @@ package stackqueue
 // - s 只包含括号字符
 
 func isValid(s string) bool {
-	stack := []rune{}
-	for _, c := range s {
-		if c == '(' || c == '{' || c == '[' {
-			stack = append(stack, c)
-		} else if c == ')' {
+	stack := []byte{}
+	for _, b := range []byte(s) {
+		switch b {
+		case '(', '{', '[':
+			stack = append(stack, b)
+		case ')':
 			if len(stack) == 0 || stack[len(stack)-1] != '(' {
 				return false
 			}
 			stack = stack[:len(stack)-1]
-		} else if c == '}' {
-			if len(stack) == 0 || stack[len(stack)-1] != '{' {
+		case ']':
+			if len(stack) == 0 || stack[len(stack)-1] != '[' {
 				return false
 			}
 			stack = stack[:len(stack)-1]
-		} else if c == ']' {
-			if len(stack) == 0 || stack[len(stack)-1] != '[' {
+		case '}':
+			if len(stack) == 0 || stack[len(stack)-1] != '{' {
 				return false
 			}
 			stack = stack[:len(stack)-1]

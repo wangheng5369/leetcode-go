@@ -1,32 +1,22 @@
-package array_string
+package arraystring
 
 // merge merges two sorted arrays nums1 and nums2 into nums1.
 // nums1 has length m+n, with the first m elements valid.
 func merge(nums1 []int, m int, nums2 []int, n int) {
-	arr := make([]int, 0, m)
-	for i := 0; i < m; i++ {
-		arr = append(arr, nums1[i])
-	}
-
-	l1, l2, idx := 0, 0, 0
-	for l1 < m && l2 < n {
-		if arr[l1] <= nums2[l2] {
-			nums1[idx] = arr[l1]
-			l1++
+	i, j, k := m-1, n-1, m+n-1
+	for i >= 0 && j >= 0 {
+		if nums1[i] > nums2[j] {
+			nums1[k] = nums1[i]
+			i--
 		} else {
-			nums1[idx] = nums2[l2]
-			l2++
+			nums1[k] = nums2[j]
+			j--
 		}
-		idx++
+		k--
 	}
-	for l1 < m {
-		nums1[idx] = arr[l1]
-		idx++
-		l1++
-	}
-	for l2 < n {
-		nums1[idx] = nums2[l2]
-		idx++
-		l2++
+	for j >= 0 {
+		nums1[k] = nums2[j]
+		k--
+		j--
 	}
 }

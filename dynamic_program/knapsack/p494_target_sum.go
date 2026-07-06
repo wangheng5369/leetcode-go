@@ -22,5 +22,28 @@ package knapsack
 // - 0 <= target <= 1000
 
 func findTargetSumWays(nums []int, target int) int {
+	sum := 0
+	for _, n := range nums {
+		sum += n
+	}
+	if (sum+target)%2 == 1 {
+		return 0
+	}
+	p := (sum + target) / 2
+	p = abs(p)
+	dp := make([]int, p+1)
+	dp[0] = 1
+	for _, num := range nums {
+		for i := p; i >= num; i-- {
+			dp[i] += dp[i-num]
+		}
+	}
+	return dp[p]
+}
 
+func abs(b int) int {
+	if b < 0 {
+		return -b
+	}
+	return b
 }

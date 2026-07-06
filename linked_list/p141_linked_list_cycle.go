@@ -12,13 +12,27 @@ func hasCycle(head *ListNode) bool {
 	if head == nil {
 		return false
 	}
-	slow, fast := head, head.Next
-	for slow != fast {
-		if fast == nil || fast.Next == nil {
+	slow, fast := head, head
+	for fast != nil && slow != nil {
+		if fast.Next == nil || fast.Next.Next == nil {
 			return false
 		}
-		slow = slow.Next
 		fast = fast.Next.Next
+		slow = slow.Next
 	}
 	return true
+}
+
+func hasCycle1(head *ListNode) bool {
+	m := make(map[*ListNode]struct{})
+	curr := head
+	for curr != nil {
+		if _, ok := m[curr]; ok {
+			return true
+		} else {
+			m[curr] = struct{}{}
+			curr = curr.Next
+		}
+	}
+	return false
 }

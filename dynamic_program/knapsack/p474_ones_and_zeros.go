@@ -28,5 +28,25 @@ package knapsack
 // - 0 <= n <= 100
 
 func findMaxForm(strs []string, m int, n int) int {
-
+	// dp[i][j]表示i个0和j个1的最大子集大小
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+	for _, str := range strs {
+		num_0, num_1 := 0, 0
+		for _, char := range str {
+			if char == '1' {
+				num_1++
+			} else {
+				num_0++
+			}
+		}
+		for i := m; i >= num_0; i-- {
+			for j := n; j >= num_1; j-- {
+				dp[i][j] = max(dp[i][j], dp[i-num_0][j-num_1]+1)
+			}
+		}
+	}
+	return dp[m][n]
 }

@@ -22,6 +22,16 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 		p = p.Next
 		q = q.Next
 	}
-	q.Next = q.Next.Next
+	return dummy.Next
+}
+
+func removeNthFromEnd1(head *ListNode, n int) *ListNode {
+	dummy := &ListNode{Next: head}
+	nodes := []*ListNode{}
+	for node := dummy; node != nil; node = node.Next {
+		nodes = append(nodes, node)
+	}
+	prev := nodes[len(nodes)-1-n]
+	prev.Next = prev.Next.Next
 	return dummy.Next
 }

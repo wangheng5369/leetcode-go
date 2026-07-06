@@ -1,4 +1,4 @@
-package string
+package slidewindow
 
 func maximumLength(s string) int {
 	n := len(s)

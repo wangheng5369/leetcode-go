@@ -1,5 +1,7 @@
 package stackqueue
 
+import "math"
+
 // p155 最小栈
 // 设计一个支持 push、pop、top 操作，并能在常数时间内检索到最小元素的栈。
 // - push(x) —— 将元素 x 推入栈中
@@ -12,22 +14,32 @@ package stackqueue
 // - pop、top 和 getMin 操作都在 O(1) 时间复杂度内
 
 type MinStack struct {
+	stack    []int
+	minStack []int
 }
 
 func Constructor() MinStack {
-
+	return MinStack{
+		stack:    []int{},
+		minStack: []int{math.MaxInt64},
+	}
 }
 
-func (this *MinStack) Push(val int) {}
+func (this *MinStack) Push(val int) {
+	this.stack = append(this.stack, val)
+	top := this.minStack[len(this.minStack)-1]
+	this.minStack = append(this.minStack, min(val, top))
+}
 
-func (this *MinStack) Pop() {}
+func (this *MinStack) Pop() {
+	this.minStack = this.minStack[:len(this.minStack)-1]
+	this.stack = this.stack[:len(this.stack)-1]
+}
 
 func (this *MinStack) Top() int {
-
-	return 0
+	return this.stack[len(this.stack)-1]
 }
 
 func (this *MinStack) GetMin() int {
-
-	return 0
+	return this.minStack[len(this.minStack)-1]
 }
