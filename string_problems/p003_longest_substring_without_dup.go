@@ -11,11 +11,11 @@ func lengthOfLongestSubstring(s string) int {
 	left, right := 0, 0
 	m := make(map[byte]int)
 	for right < len(s) {
-		if i, ok := m[s[right]]; ok && i >= left {
+		if i, ok := m[s[right]]; ok {
 			left = i + 1
 		}
-		maxLen = max(maxLen, right-left+1)
 		m[s[right]] = right
+		maxLen = max(maxLen, right-left+1)
 		right++
 	}
 	return maxLen

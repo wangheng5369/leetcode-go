@@ -31,5 +31,46 @@ package bfsdfs
 // - 可以假设 beginWord 不在字典中
 
 func ladderLength(beginWord string, endWord string, wordList []string) int {
-
+	wordSet := make(map[string]bool)
+	for _, word := range wordList {
+		wordSet[word] = true
+	}
+	if _, ok := wordSet[endWord]; !ok {
+		return 0
+	}
+	queue := []string{beginWord}
+	visited := make(map[string]bool)
+	visited[beginWord] = true
+	step := 1
+	for len(queue) > 0 {
+		size := len(queue)
+		for i := 0; i < size; i++ {
+			word := queue[0]
+			queue = queue[1:]
+			chars := []byte(word)
+			for i := 0; i < len(chars); i++ {
+				original := chars[i]
+				for c := 'a'; c <= 'z'; c++ {
+					if byte(c) == original {
+						continue
+					}
+					chars[i] = byte(c)
+					newWord := string(chars)
+					if newWord == endWord {
+						return step + 1
+					}
+					if visited[newWord] {
+						continue
+					}
+					if wordSet[newWord] {
+						queue = append(queue, newWord)
+						visited[newWord] = true
+					}
+				}
+				chars[i] = original
+			}
+		}
+		step++
+	}
+	return 0
 }

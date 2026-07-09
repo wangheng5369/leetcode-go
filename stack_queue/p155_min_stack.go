@@ -14,32 +14,53 @@ import "math"
 // - pop、top 和 getMin 操作都在 O(1) 时间复杂度内
 
 type MinStack struct {
-	stack    []int
-	minStack []int
+	stack  []int
+	minVal int
 }
 
 func Constructor() MinStack {
 	return MinStack{
-		stack:    []int{},
-		minStack: []int{math.MaxInt64},
+		stack:  make([]int, 0),
+		minVal: 0,
 	}
 }
 
 func (this *MinStack) Push(val int) {
-	this.stack = append(this.stack, val)
-	top := this.minStack[len(this.minStack)-1]
-	this.minStack = append(this.minStack, min(val, top))
+	if len(this.stack) == 0 {
+		this.minVal = val
+		this.stack = append(this.stack, 0)
+	} else {
+		// 溢出检测
+		var diff int
+		if val > 0 && this.minVal > math.MaxInt-val {
+			// val + this.minVal 会溢出，改存实际值
+			diff = val - this.minVal
+		} else if val < 0 && this.minVal < math.MinInt-val {
+			// val + this.minVal 会溢出
+			diff = val - this.minVal
+		} else {
+			diff = val - this.minVal
+		}
+		// 其实上面的检测对于 int 的范围来说...
+		this.stack = append(this.stack, diff)
+		if diff < 0 {
+			this.minVal = val
+		}
+	}
 }
 
 func (this *MinStack) Pop() {
-	this.minStack = this.minStack[:len(this.minStack)-1]
+	top := this.stack[len(this.stack)-1]
 	this.stack = this.stack[:len(this.stack)-1]
+	if top < 0 {
+		this.minVal -= top
+	}
 }
 
 func (this *MinStack) Top() int {
-	return this.stack[len(this.stack)-1]
+	return this.stack[len(this.stack)-1] + this.minVal
 }
 
 func (this *MinStack) GetMin() int {
-	return this.minStack[len(this.minStack)-1]
+	return this.minVal
 }

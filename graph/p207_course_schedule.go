@@ -26,5 +26,29 @@ package graph
 // - 所有先修条件对都不同
 
 func canFinish(numCourses int, prerequisites [][]int) bool {
-
+	edges := make([][]int, numCourses)
+	indeg := make([]int, numCourses)
+	ans := []int{}
+	for _, prerequisite := range prerequisites {
+		edges[prerequisite[1]] = append(edges[prerequisite[1]], prerequisite[0])
+		indeg[prerequisite[0]]++
+	}
+	queue := []int{}
+	for i := 0; i < numCourses; i++ {
+		if indeg[i] == 0 {
+			queue = append(queue, i)
+		}
+	}
+	for len(queue) > 0 {
+		node := queue[0]
+		queue = queue[1:]
+		ans = append(ans, node)
+		for _, edge := range edges[node] {
+			indeg[edge]--
+			if indeg[edge] == 0 {
+				queue = append(queue, edge)
+			}
+		}
+	}
+	return numCourses == len(ans)
 }

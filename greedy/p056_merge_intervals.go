@@ -30,9 +30,9 @@ func merge(intervals [][]int) [][]int {
 	})
 	ans := [][]int{intervals[0]}
 	for i := 1; i < n; i++ {
-		end := ans[len(ans)-1]
-		if intervals[i][0] <= end[1] {
-			end[1] = max(end[1], intervals[i][1])
+		interval := ans[len(ans)-1]
+		if intervals[i][0] < interval[1] {
+			interval[1] = max(interval[1], intervals[i][1])
 		} else {
 			ans = append(ans, intervals[i])
 		}

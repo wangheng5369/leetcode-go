@@ -46,15 +46,13 @@ type LRUCache struct {
 type Node struct {
 	key   int
 	value int
-	prev  *Node
 	next  *Node
+	prev  *Node
 }
 
 func Constructor(capacity int) LRUCache {
-	head := &Node{}
-	tail := &Node{}
-	head.next = tail
-	tail.prev = head
+	head, tail := &Node{}, &Node{}
+	head.next, tail.prev = tail, head
 	return LRUCache{
 		capacity: capacity,
 		cache:    make(map[int]*Node, capacity),
@@ -63,47 +61,53 @@ func Constructor(capacity int) LRUCache {
 	}
 }
 
-func (c *LRUCache) Get(key int) int {
-	if node, ok := c.cache[key]; ok {
-		c.moveToHead(node)
+func (this *LRUCache) Get(key int) int {
+	if node, ok := this.cache[key]; ok {
+		this.moveToHead(node)
 		return node.value
+	} else {
+		return -1
 	}
-	return -1
 }
 
-func (c *LRUCache) Put(key int, value int) {
-	if node, ok := c.cache[key]; ok {
+func (this *LRUCache) Put(key int, value int) {
+	if node, ok := this.cache[key]; ok {
 		node.value = value
-		c.moveToHead(node)
+		this.moveToHead(node)
 	} else {
-		node := &Node{key: key, value: value}
-		c.cache[key] = node
-		if len(c.cache) > c.capacity {
-			c.removeTail()
-			delete(c.cache, c.tail.prev.key)
+		node = &Node{key: key, value: value}
+		this.addToHead(node)
+		this.cache[key] = node
+		if len(this.cache) > this.capacity {
+			removed := this.removeTail()
+			delete(this.cache, removed.key)
 		}
 	}
 }
 
-func (c *LRUCache) moveToHead(node *Node) {
-	c.removeNode(node)
-	c.addToHead(node)
+func (this *LRUCache) addToHead(node *Node) {
+	t := this.head.next
+	this.head.next = node
+	node.prev = this.head
+	node.next = t
+	t.prev = node
 }
 
-func (c *LRUCache) addToHead(node *Node) {
-	node.next = c.head.next
-	node.prev = c.head
-	c.head.next.prev = node
-	c.head.next = node
+func (this *LRUCache) moveToHead(node *Node) {
+	this.removeNode(node)
+	this.addToHead(node)
 }
 
-func (c *LRUCache) removeTail() *Node {
-	node := c.tail.prev
-	c.removeNode(node)
-	return node
+func (this *LRUCache) removeTail() *Node {
+	removed := this.tail.prev
+	this.removeNode(removed)
+	delete(this.cache, removed.key)
+	return removed
 }
 
-func (c *LRUCache) removeNode(node *Node) {
-	node.prev.next = node.next
-	node.next.prev = node.prev
+func (this *LRUCache) removeNode(node *Node) {
+	prev := node.prev
+	next := node.next
+	prev.next = next
+	next.prev = prev
 }
